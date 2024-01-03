@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h2> {{ p.pseudo }}</h2>
+    {% if app.user.photoProfil %}
+    <div class="img-profil">
+        <img src="{{ asset('uploads/profil_picture/'~p.photoProfil) }}" alt="">
+    </div>
+    {% endif %}
+    <div class="profil">
+
+        <p>Prénom : {{ p.prenom }}</p>
+
+        <p>Nom : {{ p.nom }}</p>
+
+        <p>Téléphone : {{ p.telephone }}</p>
+
+        <p>Email : {{ p.email }}</p>
+
+        <p>Campus : {{ p.campus }}</p>
+
+        <a href="{{ path('app_main_accueil') }}"><button class="myButton"  type="button">Retour</button></a>
+    </div>
+
+
+
+{% endblock %}
+
+{% block title %}
+ Details profil
+{% endblock %}
+
+

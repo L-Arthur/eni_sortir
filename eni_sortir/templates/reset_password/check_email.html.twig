@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    <header>
+        <div class="logo-title">
+            <h1>LOGO Sortir.com</h1>
+        </div>
+    </header>
+{% endblock %}
+
+{% block title %}Email de réinitialisation du mot de passe envoyé{% endblock %}
+
+{% block body %}
+    <p>
+        Si un compte est relié à votre  adresse e-mail, un e-mail qui contient un lien pour réinitialiser votre mot de passe vient d'être envoyé.
+        Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p> Si vous ne recevez pas d'e-mail, regardez dans vos dossiers de spam ou <a href="{{ path('app_forgot_password_request') }}">réessayez</a>.</p>
+{% endblock %}

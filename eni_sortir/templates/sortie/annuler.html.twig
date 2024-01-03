@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Annuler sortie
+{% endblock %}
+
+{% block body %}
+    <h2>Annuler une sortie</h2>
+    <section class="detail-sortie">
+    <div class="detail-sortie-list">
+        <div class="elem-detail-sortie">
+            <p>Nom de la sortie :</p>
+            <p>{{ sortie.nom }}</p>
+        </div>
+        <div class="elem-detail-sortie">
+            <p>Date et heure de la sortie :</p>
+            <p>{{ sortie.dateHeureDebut | date('d/m/y') }}</p>
+        </div>
+        <div class="elem-detail-sortie">
+            <p>Campus :</p>
+            <p>{{ sortie.campus.nom }}</p>
+        </div>
+        <div class="elem-detail-sortie">
+            <p>Lieu :</p>
+            <p>{{ sortie.lieu.nom }} {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
+        </div>
+
+
+        <div class="elem-detail-sortie">
+            {{ form_start(sortieForm) }}
+            <p>{{ form_label(sortieForm.infosSortie) }}</p>
+            <p>{{ form_widget(sortieForm.infosSortie) }}</p>
+        </div>
+    </div>
+
+    <div>
+        <button class="myButton"  type="submit" name="enregistrer">Enregistrer</button>
+        <button class="myButton"  type="reset">Annuler</button>
+        {{ form_end(sortieForm) }}
+    </div>
+    </section>
+
+
+    {#<section class="elem-detail-infos">
+        <p>
+            Motif :
+        </p>
+        <textarea rows="5" cols="40"></textarea>
+    </section>#}
+
+{%  endblock %}

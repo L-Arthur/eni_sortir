@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    <header>
+        <div class="logo-title">
+             <h1>LOGO Sortir.com</h1>
+        </div>
+    </header>
+{% endblock %}
+
+
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form class="login-form" method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+
+    <label for="inputEmail">Identifiant</label>
+    <input type="text" value="{{ last_username }}" name="email_or_pseudo" id="inputEmailOrPseudo" class="form-control" autocomplete="identifiant" required autofocus>
+    <label for="inputPassword">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        Sign in
+    </button>
+</form>
+
+    <div class="login-form">
+        <a class="underline" href="{{ path('app_forgot_password_request') }}" title="reset password">Mot de passe oublié</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+liip_imagine:
+  filter_sets:
+    avatar:
+      filters:
+        thumbnail:
+          size: [250, 250]
+          mode: outbound

@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if editMode %}
+        <h2>Modifier une sortie</h2>
+    {% else %}
+        <h2>Créer une sortie</h2>
+    {% endif %}
+    <div class="sortie-form">
+        {{ form_start(sortieForm) }}
+        <div class="sortie-form-partie">
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.nom) }}
+                {{ form_widget(sortieForm.nom) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.dateHeureDebut) }}
+                {{ form_widget(sortieForm.dateHeureDebut) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.dateLimiteInscription) }}
+                {{ form_widget(sortieForm.dateLimiteInscription) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.nbInscriptionsMax) }}
+                {{ form_widget(sortieForm.nbInscriptionsMax) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.duree) }}
+                {{ form_widget(sortieForm.duree) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.infosSortie) }}
+                {{ form_widget(sortieForm.infosSortie) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.campus) }}
+                {{ form_widget(sortieForm.campus) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.ville) }}
+                {{ form_widget(sortieForm.ville) }}
+            </div>
+            <div class="champ-formulaire-lieu">
+                <div class="champ-formulaire-lieu-label">{{ form_label(sortieForm.lieu) }}</div>
+                <div class="champ-formulaire-lieu-widget">{{ form_widget(sortieForm.lieu) }}
+                <a href="{{ path('app_lieu') }}"><button class="myButton"  type="button" name="ajouter">+</button></a></div>
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.rue) }}
+                {{ form_widget(sortieForm.rue) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.codePostal) }}
+                {{ form_widget(sortieForm.codePostal) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.latitude) }}
+                {{ form_widget(sortieForm.latitude) }}
+            </div>
+            <div class="champ-formulaire">
+                {{ form_label(sortieForm.longitude) }}
+                {{ form_widget(sortieForm.longitude) }}
+            </div>
+        </div>
+
+        <div class="champ-formulaire-btn">
+            <button class="myButton"  type="submit" name="enregistrer">Enregistrer</button>
+            <button class="myButton"  type="submit" name="publier">Publier la sortie</button>
+            {% if editMode %}
+                <a href="{{ path('app_sortie_supprimer', {'id': id}) }}"><button class="myButton"  type="button" name="supprimer">Supprimer la sortie</button></a>{# Supprimer si l'annonce n'est pas publiée #}
+            {% endif %}
+            <button class="myButton"  type="reset">Annuler</button>
+        </div>
+
+        {{ form_end(sortieForm) }}
+
+    </div>
+
+{% endblock %}
+
+{% block title %}
+    {% if editMode %}
+        Modifier une sortie | {{ parent() }}
+    {% else %}
+        Créer une nouvelle sortie | {{ parent() }}
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            let villeSelect = document.querySelector("#sortie_ville");
+            let lieuSelect = document.querySelector("#sortie_lieu");
+            let rueInput = document.querySelector("#sortie_rue");
+            let codePostalInput = document.querySelector("#sortie_codePostal");
+            let latitudeInput = document.querySelector("#sortie_latitude");
+            let longitudeInput = document.querySelector("#sortie_longitude");
+            let lieuxOptions = [];
+
+            let lieuSelectionne = lieuSelect.value;
+
+
+
+
+
+            //villeSelect.addEventListener("onload", SelectionDuLieu);
+            villeSelect.addEventListener("change", SelectionDuLieu);
+            lieuSelect.addEventListener("change", function () {
+                updateRueAndCodePostal(lieuxOptions);
+            })
+
+            if(villeSelect.value) {
+                SelectionDuLieu();
+            }
+
+            function SelectionDuLieu () {
+                let villeId = villeSelect.value;
+
+                fetch(`{{ app_url_api }}/lieux/ville/${villeId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(response => response.json())
+                    .then(function (lieux) {
+                        lieuSelect.innerHTML = '';
+                        //ajouter une option 0 pour "choisir un lieu"
+                        lieuSelect.innerHTML = "<option>Choisir un lieu</option>"
+
+
+                        for (let i = 0; i < lieux.length; i++) {
+                            let option = new Option(lieux[i].nom, lieux[i].id);
+                            if (lieux[i].id == lieuSelectionne) {
+                                option.setAttribute('selected', true);
+                            }
+                            lieuSelect.add(option);
+                        }
+
+                        updateRueAndCodePostal(lieux);
+
+                        lieuxOptions = lieux;
+
+                    })
+
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+
+            function updateRueAndCodePostal(lieux) {
+                index = lieuSelect.selectedIndex-1;
+                rueInput.value = index===-1 ? "" : lieux[index].rue || "";
+                codePostalInput.value = index===-1 ? "" : lieux[index].codePostal || "";
+                latitudeInput.value = index===-1 ? "" : lieux[index].latitude || "";
+                longitudeInput.value = index===-1 ? "" : lieux[index].longitude || "";
+            }
+            //debugger;
+        });
+    </script>
+{% endblock %}

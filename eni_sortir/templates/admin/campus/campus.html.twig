@@ -1,0 +1,60 @@
+{% extends '/base.html.twig' %}
+
+{% block title %}Gérer les campus{% endblock %}
+
+{% block body %}
+    <h2>Gérer les campus</h2>
+
+    <section class="recherche">
+        <h3>Filtrer les campus</h3>
+        <div>
+            {{ form_start(rechercheCampusForm) }}
+            {{ form_widget(rechercheCampusForm) }}
+            <button class="myButton"  type="submit">Rechercher</button>
+            {{ form_end(rechercheCampusForm) }}
+    </section>
+    <section>
+        <div class="list-sorties">
+            <table class="tableau-sorties">
+                <thead>
+                <tr>
+                    <th>Campus</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody class="table-container">
+                {% for campus in listCampus %}
+
+                    <tr class="ligne-tableau-sortie">
+                        {% if campus.id == id %}
+                            {% if editMode %}
+                                {{ form_start(createCampusForm) }}
+                                <td>{{ form_widget(createCampusForm.nom) }}</td>
+                                <td><button class="bouton-formulaire-ville"  type="submit">Modifier</button></td>
+                                {{ form_end(createCampusForm) }}
+                            {% else %}
+                                <td>{{ campus.nom }}</td>
+                                <td><a class="underline" href="{{ path('app_campus_modification', {'id': campus.id}) }}">Modifier</a>
+                                    <a class="underline" href="{{ path('app_campus_supprimer', {'id': campus.id}) }}">Supprimer</a></td>
+                            {% endif %}
+                        {% else %}
+                            <td>{{ campus.nom }}</td>
+                            <td><a class="underline" href="{{ path('app_campus_modification', {'id': campus.id}) }}">Modifier</a>
+                                <a class="underline" href="{{ path('app_campus_supprimer', {'id': campus.id}) }}">Supprimer</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                {% if editMode %}
+                {% else %}
+                    <tr class="ligne-tableau-sortie">
+                        {{ form_start(createCampusForm) }}
+                        <td>{{ form_widget(createCampusForm.nom) }}</td>
+                        <td><button class="bouton-formulaire-ville"  type="submit">Ajouter</button></td>
+                        {{ form_end(createCampusForm) }}
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

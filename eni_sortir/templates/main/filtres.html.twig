@@ -1,0 +1,39 @@
+
+<h1>Filtrer les sorties</h1>
+<div>
+    <div class="recherche-form">
+        {{ form_start(rechercheForm) }}
+
+        <div class="champ-formulaire-filtres">
+            {{ form_row(rechercheForm.campuses) }}
+            {{ form_row(rechercheForm.q) }}
+            <div>
+            {{ form_row(rechercheForm.dateMin) }}
+            {{ form_row(rechercheForm.dateMax) }}
+            </div>
+        </div>
+        <div class="champ-formulaire-filtres-checkbox">
+            <div>
+            {{ form_label(rechercheForm.criteres.children[0]) }}
+            {{ form_widget(rechercheForm.criteres.children[0]) }}
+            </div>
+            <div>
+            {{ form_label(rechercheForm.criteres.children[1]) }}
+            {{ form_widget(rechercheForm.criteres.children[1]) }}
+            </div>
+            <div>
+            {{ form_label(rechercheForm.criteres.children[2]) }}
+            {{ form_widget(rechercheForm.criteres.children[2]) }}
+            </div>
+            <div>
+            {{ form_label(rechercheForm.criteres.children[3]) }}
+            {{ form_widget(rechercheForm.criteres.children[3]) }}
+            </div>
+        </div>
+        <div class="champ-formulaire-btn">
+            <button class="myButton"  type="submit">Rechercher</button>
+        </div>
+        {{ form_end(rechercheForm) }}
+    </div>
+</div>
+

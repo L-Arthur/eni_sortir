@@ -1,0 +1,70 @@
+{% extends '/base.html.twig' %}
+
+{% block title %}Gérer les villes{% endblock %}
+
+{% block body %}
+
+
+    <h2>Gérer les villes</h2>
+
+    <section class="recherche">
+        <h3>Filtrer les villes</h3>
+        <div>
+            {{ form_start(rechercheVilleForm) }}
+            {{ form_widget(rechercheVilleForm) }}
+            <button class="myButton"  type="submit">Rechercher</button>
+            {{ form_end(rechercheVilleForm) }}
+    </section>
+    <section>
+        <div class="list-sorties">
+            <table class="tableau-sorties">
+                <thead>
+                <tr>
+                    <th>Ville</th>
+                    <th>Code postal</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody class="table-container">
+                {% for villes in listVilles %}
+
+                    <tr class="ligne-tableau-sortie">
+                        {% if villes.id == id %}
+                        {% if editMode %}
+                        {{ form_start(createVilleForm) }}
+                        <td>{{ form_widget(createVilleForm.nom) }}</td>
+                        <td>{{ form_widget(createVilleForm.codePostal) }}</td>
+                        <td><button class="bouton-formulaire-ville"  type="submit">Modifier</button></td>
+                        {{ form_end(createVilleForm) }}
+                        {% else %}
+                        <td>{{ villes.nom }}</td>
+                        <td>{{ villes.codePostal }}</td>
+                        <td><a class="underline" href="{{ path('app_ville_modification', {'id': villes.id}) }}">Modifier</a>
+                            <a class="underline" href="{{ path('app_ville_supprimer', {'id': villes.id}) }}">Supprimer</a></td>
+                            {% endif %}
+                            {% else %}
+                        <td>{{ villes.nom }}</td>
+                        <td>{{ villes.codePostal }}</td>
+                        <td><a class="underline" href="{{ path('app_ville_modification', {'id': villes.id}) }}">Modifier</a>
+                            <a class="underline" href="{{ path('app_ville_supprimer', {'id': villes.id}) }}">Supprimer</a></td>
+                            {% endif %}
+                    </tr>
+                {% endfor %}
+                {% if editMode %}
+                {% else %}
+                    <tr class="ligne-tableau-sortie">
+                        {{ form_start(createVilleForm) }}
+                        <td>{{ form_widget(createVilleForm.nom) }}</td>
+                        <td>{{ form_widget(createVilleForm.codePostal) }}</td>
+                        <td><button class="bouton-formulaire-ville"  type="submit">Ajouter</button></td>
+                        {{ form_end(createVilleForm) }}
+                    </tr>
+                {% endif %}
+
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modifier sortie
+{% endblock %}
+
+{% block body %}
+    <h2>Modifier une sortie</h2>
+    <section class="detail-sortie">
+        <div class="detail-sortie-list">
+            <div class="elem-detail-sortie">
+                <p>Nom de la sortie :</p>
+                <p>{{ sortie.nom }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Date et heure de la sortie :</p>
+                <p>{{ sortie.dateHeureDebut | date('d/m/y H:i') }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Date limite d'inscription :</p>
+                <p>{{ sortie.dateLimiteInscription| date('d/m/y H:i') }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Nombre de place :</p>
+                <p>{{ sortie.nbInscriptionsMax }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Durée :</p>
+                <p>{{ sortie.duree }} minutes</p>
+            </div>
+        </div>
+        <div class="detail-sortie-list">
+            <div class="elem-detail-sortie">
+                <p>Campus :</p>
+                <p>{{ sortie.campus.nom }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Lieu :</p>
+                <p>{{ sortie.lieu.nom }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Rue :</p>
+                <p>{{ sortie.lieu.rue }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Code postal :</p>
+                <p>{{ sortie.lieu.ville.codePostal }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Latitude :</p>
+                <p>{{ sortie.lieu.latitude }}</p>
+            </div>
+            <div class="elem-detail-sortie">
+                <p>Longitude :</p>
+                <p>{{ sortie.lieu.longitude }}</p>
+            </div>
+        </div>
+    </section>
+    <section class="elem-detail-infos">
+        <p>
+            Description et info
+        </p>
+        <p>{{ sortie.infosSortie }}</p>
+    </section>
+
+    <section class="boutton">
+        <button class="myButton"  type="submit">Enregistrer</button>
+        <button class="myButton"  type="button">Publier la sortie</button>
+        <button class="myButton"  type="button">Supprimer la sortie</button>
+        <button class="myButton"  type="reset">Annuler</button>
+    </section>
+
+{%  endblock %}

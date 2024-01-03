@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="desktop">
+    <section class="date-du-jour-nom">
+        <div>
+            <p>Date du jour {{ 'now'|date('d/m/Y') }}</p>
+            <p>Participant : {{ app.user.prenom }} {{ app.user.nom|first }}.</p>
+        </div>
+    </section>
+    <section class="recherche">
+        {% include 'main/filtres.html.twig' %}
+    </section>
+
+
+        <div class="list-sorties">
+            <table class="tableau-sorties">
+                <thead>
+                <tr>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>Inscrits/Places</th>
+                    <th>Etat</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody class="table-container">
+                {% for sortie in listeSorties %}
+                    <tr class="ligne-tableau-sortie">
+                        <td><a class="underline" href="{{ path('app_sortie_detail', {'id': sortie.id}) }}">{{ sortie.nom }}</a></td>
+                        <td>{{ sortie.dateHeureDebut|date('d/m/Y') }}</td>
+                        <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                        <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.etat.libelle }}</td>
+                        <td>
+                            {% if app.user in sortie.inscrits %}
+                                X
+                            {% endif %}
+                        </td>
+                        <td><a class="underline" href="{{ path('app_profil_details', {'id': sortie.organisateur.id}) }}">
+                                {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }}.</a></td>
+                        <td>
+                            {% if sortie.etat.libelle == "Créée"
+                                and app.user == sortie.organisateur %}
+                                <a class="underline" href="{{ path('sortie_modification', {'id': sortie.id}) }}">Modifier</a>
+                            {% endif %}
+                            {% if (sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Clôturée")
+                                and (app.user.administrateur or app.user == sortie.organisateur) %}
+                                <a class="underline" href="{{ path('app_sortie_annulersortie', {'id': sortie.id}) }}">Annuler</a>
+                            {% endif %}
+
+                            {% if sortie.etat.libelle == "Ouverte"
+                                and app.user not in sortie.inscrits
+                                and sortie.inscrits|length < sortie.nbInscriptionsMax %}
+                                <a class="underline" href="{{ path('app_sortie_sinscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                            {% endif %}
+                            {% if  date(sortie.dateHeureDebut) > date("now") and  app.user in sortie.inscrits %}
+                                <a class="underline" href="{{ path('app_sortie_sedesinscrire', {'id': sortie.id}) }}">Se désinscrire</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a class="underline" href="{{ path('app_sortie_create') }}">
+            <button class="myButton btn-creer-sortie-accueil" onclick="{{ path('app_sortie_create') }}">Créer une sortie</button>
+        </a>
+    </div>
+
+    <div class="mobile">
+        <div class="list-sorties">
+            <table class="tableau-sorties">
+                <thead>
+                <tr>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Lieu</th>
+                </tr>
+                </thead>
+                <tbody class="table-container">
+                {% for sortie in listeSorties  %}
+                    {% if app.user in sortie.inscrits %}
+                    <tr class="ligne-tableau-sortie">
+                        <td><a class="underline" href="{{ path('app_sortie_detail', {'id': sortie.id}) }}">{{ sortie.nom }}</a></td>
+                        <td>{{ sortie.dateHeureDebut|date('d/m/Y') }}</td>
+                        <td>{{ sortie.lieu.nom }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

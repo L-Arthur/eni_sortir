@@ -1,0 +1,35 @@
+<header>
+    <div class="logo-title">
+        <h1><a class="underline" href="{{ path('app_main_accueil') }}">LOGO Sortir.com</a></h1>
+    </div>
+    {% if is_granted('ROLE_USER') %}
+        <nav class="desktop">
+            <ul>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li><a class="underline" href="{{ path('app_ville') }}">Villes</a></li>
+                <li><a class="underline" href="{{ path('app_campus') }}">Campus</a></li>
+                <li><a class="underline" href="{{ path('app_admin') }}">Administration</a></li>
+                {% endif %}
+                <li><a class="underline" href="{{ path('app_main_accueil') }}">Accueil</a></li>
+                <li><a class="underline" href="{{ path('app_profil') }}">Mon profil</a></li>
+                <li><a class="underline" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+            </ul>
+        </nav>
+        <nav class="mobile">
+            <ul>
+                <li><a class="underline" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+            </ul>
+        </nav>
+    {% endif %}
+</header>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash flash-{{ label }}">
+            {% if label == 'error' %}
+                <pre>{{ message }}</pre>
+            {% else %}
+                {{ message }}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endfor %}

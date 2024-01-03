@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+    <h2>Mon profil</h2>
+
+    {% if app.user.photoProfil %}
+    <div class="img-profil">
+        <img src="{{asset('uploads/profil_picture/'~app.user.photoProfil)}}" alt="">
+    </div>
+    {% endif %}
+    <div class="profil-form">
+        {{ form_start(profilForm) }}
+
+        <div class="champ-formulaire">
+        {{ form_label(profilForm.pseudo) }}
+        {{ form_widget(profilForm.pseudo) }}
+        </div>
+
+        <div class="champ-formulaire">
+        {{ form_label(profilForm.prenom) }}
+        {{ form_widget(profilForm.prenom) }}
+        </div>
+
+        <div class="champ-formulaire">
+        {{ form_label(profilForm.nom) }}
+        {{ form_widget(profilForm.nom) }}
+        </div>
+
+        <div class="champ-formulaire">
+        {{ form_label(profilForm.telephone) }}
+        {{ form_widget(profilForm.telephone) }}
+        </div>
+
+        <div class="champ-formulaire">
+        {{ form_label(profilForm.email) }}
+        {{ form_widget(profilForm.email) }}
+        </div>
+
+        <div class="champ-formulaire">
+        {{ form_widget(profilForm.motDePasse) }}
+        </div>
+
+        <div class="champ-formulaire">
+        {{ form_label(profilForm.nom_campus) }}
+        {{ form_widget(profilForm.nom_campus) }}
+        </div>
+
+        <div class="champ-formulaire">
+            {{ form_label(profilForm.image) }}
+            {{ form_widget(profilForm.image) }}
+        </div>
+
+        <div class="champ-formulaire-btn">
+        <button class="myButton"  type="submit">Enregistrer</button>
+        <button class="myButton"  type="reset">Annuler</button>
+        </div>
+        {{ form_end(profilForm) }}
+
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('cropper.min.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('cropper.min.js') }}"></script>
+{% endblock %}

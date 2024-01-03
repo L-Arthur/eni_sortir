@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    <header>
+        <div class="logo-title">
+            <h1>LOGO Sortir.com</h1>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+<h1>Bonjour !</h1>
+
+<p>Pour réinitialiser votre mot de passe, cliquez sur le lien ci-dessous</p>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+<p>Bonne journée ;)</p>
+{% endblock %}

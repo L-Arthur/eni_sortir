@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Ajouter un lieu</h2>
+    <div class="sortie-form">
+        {{ form_start(lieuForm) }}
+        {{ form_widget(lieuForm) }}
+        <button class="myButton"  type="submit" name="ajouter">Ajouter un lieu</button>
+        {{ form_end(lieuForm) }}
+    </div>
+{% endblock %}
+
+{% block title %}
+Ajouter un lieu
+{% endblock %}
+
