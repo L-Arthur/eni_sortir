@@ -16,7 +16,7 @@ Le projet a été réalisé par une équipe de quatre personnes dans le cadre d'
 <h1 align="center">eni_sortir</h1>
 
 <p>
-eni_sortir is a school outing management application.<br>
+eni_sortir is a school trip management application.<br>
 The application considers fictional outings as well as fictional users.
 </p>
 <p>
